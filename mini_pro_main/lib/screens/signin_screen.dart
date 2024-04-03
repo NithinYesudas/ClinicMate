@@ -32,18 +32,22 @@ class _SignInScreenState extends State<SignInScreen> {
                 20, MediaQuery.of(context).size.height * 0.2, 20, 0),
             child: Column(
               children: <Widget>[
-                logoWidget(
-                    "assets/images/logosthestscope_heart000627-removebg-preview.png"),
-                SizedBox(
+                Image.asset(
+                    'assets/images/logosthestscope_heart000627-removebg-preview.png'),
+                const SizedBox(
                   height: 30,
                 ),
                 resuableTextfield("Enter username", Icons.person_outline, false,
                     _emailTextController),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 resuableTextfield("Enter passwoerdd", Icons.lock_outline, true,
-                    _emailTextController),
+                    _passwordTextController),
+                const SizedBox(
+                  height: 20,
+                ),
+                signInSignUpButton(context, true, () {})
               ],
             ),
           ),
