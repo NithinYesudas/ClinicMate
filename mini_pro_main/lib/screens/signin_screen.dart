@@ -29,11 +29,10 @@ class _SignInScreenState extends State<SignInScreen> {
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.fromLTRB(
-                20, MediaQuery.of(context).size.height * 0.2, 20, 0),
+                20, MediaQuery.of(context).size.height * 0.32, 20, 0),
             child: Column(
               children: <Widget>[
-                Image.asset(
-                    'assets/images/logosthestscope_heart000627-removebg-preview.png'),
+                logoWidget('assets/images/logo1.png'),
                 const SizedBox(
                   height: 30,
                 ),
