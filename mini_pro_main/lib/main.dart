@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mini_pro_main/screens/signin_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const MyApp()); //ggh
 }
 
 class MyApp extends StatelessWidget {
