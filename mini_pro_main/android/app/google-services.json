@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "795957960549",
+    "project_id": "signin-mcm",
+    "storage_bucket": "signin-mcm.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:795957960549:android:c3a972a6be6c465ec90b8c",
+        "android_client_info": {
+          "package_name": "com.example.mini_pro_main"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsQPcPLYs1pcvNSk0sx_FASvBT60QxvMs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
