@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:mini_pro_main/screens/home_screen.dart';
 import 'package:mini_pro_main/screens/signup_screen.dart';
 import 'package:mini_pro_main/utils/color_utils.dart';
@@ -48,7 +46,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                signInSignUpButton(context, false, () {
+                signInSignUpButton(context, true, () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => HomeScreen()));
                 }),
@@ -73,7 +71,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 MaterialPageRoute(builder: (context) => SignUpScreen()));
           },
           child: const Text(
-            "sign up",
+            "Sign up",
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
         )
