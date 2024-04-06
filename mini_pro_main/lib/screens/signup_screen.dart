@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mini_pro_main/reusable_widgets/reusable_widget.dart';
-import 'package:mini_pro_main/screens/home_screen.dart';
 import 'package:mini_pro_main/screens/signin_screen.dart';
 import 'package:mini_pro_main/utils/color_utils.dart';
 
