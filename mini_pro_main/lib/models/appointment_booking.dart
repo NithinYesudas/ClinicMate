@@ -51,7 +51,7 @@ class _DoctorCardState extends State<DoctorCard> {
             padding: EdgeInsets.all(16.0),
             child: CircleAvatar(
               radius: 50.0,
-              backgroundImage: AssetImage('assets/doctor_image.jpg'),
+              backgroundImage: AssetImage('assets/images/doctors.jpg'),
             ),
           ),
           Text(

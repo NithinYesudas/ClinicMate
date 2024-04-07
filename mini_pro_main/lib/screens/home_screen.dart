@@ -99,7 +99,9 @@ class _HomeScreenState extends State<HomeScreen> {
             top: (MediaQuery.of(context).size.height) / 9,
             right: 0,
             child: IconButton(
-              icon: Icon(Icons.add), // Change this to your desired icon
+              icon: Icon(
+                Icons.settings,
+              ), // Change this to your desired icon
               onPressed: () {
                 // Add your onPressed logic here
               },
@@ -118,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
             right: 26,
             child: IconButton(
               icon: Icon(
-                Icons.app_registration_rounded,
+                Icons.chat,
                 size: 60,
               ), // Change this to your desired icon
               onPressed: () {
@@ -150,7 +152,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Doctor> getDoctors() {
     List<Doctor> doctors = [];
     for (int i = 0; i < 10; i++) {
-      AssetImage profilePic = const AssetImage("lib/assets/doctors.jpg");
+      AssetImage profilePic = const AssetImage("assets/images/doctors.jpg");
       Doctor doctor = Doctor(
         "Dr. Smith",
         "070-379-031",
