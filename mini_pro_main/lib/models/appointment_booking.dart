@@ -55,7 +55,7 @@ class _DoctorCardState extends State<DoctorCard> {
             ),
           ),
           Text(
-            'Cardiologist',
+            'Pediatrician',
             style: TextStyle(
               fontSize: 20.0,
               fontWeight: FontWeight.bold,
@@ -63,7 +63,7 @@ class _DoctorCardState extends State<DoctorCard> {
           ),
           SizedBox(height: 8.0),
           Text(
-            'Dr. Alan C Braverman',
+            'Dr. Smith',
             style: TextStyle(
               fontSize: 18.0,
             ),
@@ -84,7 +84,7 @@ class _DoctorCardState extends State<DoctorCard> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.0),
             child: Text(
-              'Dr. Alan C. Braverman is a cardiologist in Saint Louis, Missouri and is affiliated with multiple hospitals in the area.',
+              'Dr. Smith, a dedicated Pediatrician, provides compassionate care for children, ensuring their health and well-being with expertise and kindness.',
               style: TextStyle(
                 fontSize: 16.0,
               ),
