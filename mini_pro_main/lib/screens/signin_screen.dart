@@ -84,7 +84,7 @@ class _SignInScreenState extends State<SignInScreen> {
           if (error.code == 'user-not-found') {
             _emailErrorMessage = 'User not found';
           } else if (error.code == 'invalid-password') {
-            _passwordErrorMessage = 'wrong password';
+            _passwordErrorMessage = 'invalid password';
           } else if (error.code == 'invalid-email') {
             _emailErrorMessage = 'Invalid email address';
           } else {
