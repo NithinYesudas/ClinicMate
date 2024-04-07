@@ -27,6 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mini_pro_main/models/appointment_booking.dart';
 import 'package:mini_pro_main/models/doctors.dart';
 import 'package:mini_pro_main/models/global.dart';
 import 'package:mini_pro_main/screens/signin_screen.dart';
@@ -169,73 +170,82 @@ class _HomeScreenState extends State<HomeScreen> {
     List<Doctor> doctors = getDoctors();
     List<Widget> cards = [];
     for (Doctor doctor in doctors) {
-      cards.add(doctorCard(doctor));
+      cards.add(doctorCard(context, doctor));
     }
     return cards;
   }
 }
 
-Widget doctorCard(Doctor doctor) {
-  return Container(
-    padding: EdgeInsets.all(10),
-    margin: EdgeInsets.only(right: 20),
-    width: 180,
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.all(Radius.circular(20)),
-      color: Colors.white,
-      boxShadow: [
-        BoxShadow(
-          color: Colors.grey,
-          blurRadius: 20.0,
+Widget doctorCard(BuildContext context, Doctor doctor) {
+  return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DoctorCard(),
+          ),
+        );
+      },
+      child: Container(
+        padding: EdgeInsets.all(10),
+        margin: EdgeInsets.only(right: 20),
+        width: 180,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey,
+              blurRadius: 20.0,
+            ),
+          ],
         ),
-      ],
-    ),
-    child: Column(
-      children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+        child: Column(
           children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Container(
+                  child: CircleAvatar(
+                    backgroundImage: doctor.profilePic,
+                  ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(doctor.name, style: techCardTitleStyle),
+                    Text(doctor.specialization, style: techCardSubTitleStyle),
+                  ],
+                )
+              ],
+            ),
             Container(
-              child: CircleAvatar(
-                backgroundImage: doctor.profilePic,
+              margin: EdgeInsets.only(top: 30),
+              child: Row(
+                children: <Widget>[
+                  Text("Status:  ", style: techCardSubTitleStyle),
+                  Text(doctor.status, style: statusStyles[doctor.status])
+                ],
               ),
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(doctor.name, style: techCardTitleStyle),
-                Text(doctor.specialization, style: techCardSubTitleStyle),
-              ],
+            Container(
+              margin: EdgeInsets.only(top: 40),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Text("Rating: " + doctor.rating.toString(),
+                          style: techCardSubTitleStyle),
+                    ],
+                  ),
+                  Row(children: getRatings(doctor.rating))
+                ],
+              ),
             )
           ],
         ),
-        Container(
-          margin: EdgeInsets.only(top: 30),
-          child: Row(
-            children: <Widget>[
-              Text("Status:  ", style: techCardSubTitleStyle),
-              Text(doctor.status, style: statusStyles[doctor.status])
-            ],
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.only(top: 40),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Text("Rating: " + doctor.rating.toString(),
-                      style: techCardSubTitleStyle),
-                ],
-              ),
-              Row(children: getRatings(doctor.rating))
-            ],
-          ),
-        )
-      ],
-    ),
-  );
+      ));
 }
 
 List<Widget> getRatings(int rating) {
