@@ -51,7 +51,7 @@ Container signInSignUpButton(
         onTap();
       },
       child: Text(
-        islogin ? "LOGGIN" : 'SIGN UP',
+        islogin ? "LOG IN" : 'SIGN UP',
         style: const TextStyle(
             color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 16),
       ),
@@ -66,4 +66,30 @@ Container signInSignUpButton(
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)))),
     ),
   );
+}
+
+//errorr     meassangeee
+class ErrorMessageWidget extends StatefulWidget {
+  final String errorMessage;
+
+  const ErrorMessageWidget({super.key, required this.errorMessage});
+
+  @override
+  State<ErrorMessageWidget> createState() => _ErrorMessageWidgetState();
+}
+
+class _ErrorMessageWidgetState extends State<ErrorMessageWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return Visibility(
+      visible: widget.errorMessage.isNotEmpty,
+      child: Text(
+        widget.errorMessage,
+        style: const TextStyle(
+          color: Colors.red,
+          fontSize: 14.0,
+        ),
+      ),
+    );
+  }
 }

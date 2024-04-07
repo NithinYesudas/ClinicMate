@@ -16,7 +16,8 @@ class SignInScreen extends StatefulWidget {
 class _SignInScreenState extends State<SignInScreen> {
   TextEditingController _passwordTextController = TextEditingController();
   TextEditingController _emailTextController = TextEditingController();
-
+  String _emailErrorMessage = '';
+  String _passwordErrorMessage = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,28 +38,23 @@ class _SignInScreenState extends State<SignInScreen> {
                 const SizedBox(
                   height: 30,
                 ),
-                resuableTextfield("Enter username", Icons.person_outline, false,
+                resuableTextfield("Enter email", Icons.person_outline, false,
                     _emailTextController),
+                ErrorMessageWidget(errorMessage: _emailErrorMessage),
                 const SizedBox(
                   height: 30,
                 ),
-                resuableTextfield("Enter passwoerdd", Icons.lock_outline, true,
+                resuableTextfield("Enter passwordd", Icons.lock_outline, true,
                     _passwordTextController),
+                ErrorMessageWidget(errorMessage: _passwordErrorMessage),
                 const SizedBox(
                   height: 20,
                 ),
-                signInSignUpButton(context, true, () {
-                  FirebaseAuth.instance
-                      .signInWithEmailAndPassword(
-                          email: _emailTextController.text,
-                          password: _passwordTextController.text)
-                      .then((value) {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => HomeScreen()));
-                  }).onError((error, stackTrace) {
-                    print("error${error.toString()}");
-                  });
-                }),
+                signInSignUpButton(
+                  context,
+                  true,
+                  signInWithEmailAndPassword,
+                ),
                 signUpOption()
               ],
             ),
@@ -66,6 +62,43 @@ class _SignInScreenState extends State<SignInScreen> {
         ),
       ),
     );
+  }
+
+  signInWithEmailAndPassword() {
+    FirebaseAuth.instance
+        .signInWithEmailAndPassword(
+      email: _emailTextController.text,
+      password: _passwordTextController.text,
+    )
+        .then((value) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
+      );
+    }).onError((error, stackTrace) {
+      setState(() {
+        _emailErrorMessage = '';
+        _passwordErrorMessage = '';
+
+        if (error is FirebaseAuthException) {
+          if (error.code == 'user-not-found') {
+            _emailErrorMessage = 'User not found';
+          } else if (error.code == 'invalid-password') {
+            _passwordErrorMessage = 'wrong password';
+          } else if (error.code == 'invalid-email') {
+            _emailErrorMessage = 'Invalid email address';
+          } else {
+            // Handle other error codes or provide a generic error message
+            //_emailErrorMessage = 'An error occurred: ${error.code}';
+            _passwordErrorMessage = 'Wrong password';
+          }
+        } else {
+          // Handle the case where error is not a FirebaseAuthException
+          _emailErrorMessage = 'An unknown error occurred';
+          _passwordErrorMessage = 'An unknown error occurred';
+        }
+      });
+    });
   }
 
   Row signUpOption() {
