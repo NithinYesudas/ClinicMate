@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mini_pro_main/screens/home_screen.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'timeslotpg.dart';
 
@@ -33,7 +34,10 @@ class _DoctorCardState extends State<DoctorCard> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            // Handle back button press
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const HomeScreen()),
+            ); // Handle back button press
           },
         ),
         actions: [
@@ -51,11 +55,11 @@ class _DoctorCardState extends State<DoctorCard> {
             padding: EdgeInsets.all(16.0),
             child: CircleAvatar(
               radius: 50.0,
-              backgroundImage: AssetImage('assets/images/doctors.jpg'),
+              backgroundImage: AssetImage('assets/doctor_image.jpg'),
             ),
           ),
           Text(
-            'Pediatrician',
+            'Cardiologist',
             style: TextStyle(
               fontSize: 20.0,
               fontWeight: FontWeight.bold,
@@ -63,7 +67,7 @@ class _DoctorCardState extends State<DoctorCard> {
           ),
           SizedBox(height: 8.0),
           Text(
-            'Dr. Smith',
+            'Dr. Alan C Braverman',
             style: TextStyle(
               fontSize: 18.0,
             ),
@@ -84,7 +88,7 @@ class _DoctorCardState extends State<DoctorCard> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.0),
             child: Text(
-              'Dr. Smith, a dedicated Pediatrician, provides compassionate care for children, ensuring their health and well-being with expertise and kindness.',
+              'Dr. Alan C. Braverman is a cardiologist in Saint Louis, Missouri and is affiliated with multiple hospitals in the area.',
               style: TextStyle(
                 fontSize: 16.0,
               ),
@@ -117,12 +121,15 @@ class _DoctorCardState extends State<DoctorCard> {
           SizedBox(height: 16.0),
           ElevatedButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => TimeSlotPage(selectedDate: _focusedDay),
-                ),
-              );
+              if (_selectedDay != null) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        TimeSlotPage(selectedDate: _selectedDay!),
+                  ),
+                );
+              }
             },
             child: const Text('Book Appointment'),
           ),
