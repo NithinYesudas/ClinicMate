@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mini_pro_main/doctor/dr_homescreen.dart';
 import 'package:mini_pro_main/screens/home_screen.dart';
 import 'package:mini_pro_main/screens/signup_screen.dart';
 import 'package:mini_pro_main/utils/color_utils.dart';
@@ -70,11 +72,39 @@ class _SignInScreenState extends State<SignInScreen> {
       email: _emailTextController.text,
       password: _passwordTextController.text,
     )
-        .then((value) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
-      );
+        .then((userCredential) {
+      // Check the 'doctors' collection first
+      FirebaseFirestore.instance
+          .collection('doctors')
+          .doc(userCredential.user!.uid)
+          .get()
+          .then((documentSnapshot) {
+        if (documentSnapshot.exists) {
+          // User is a doctor, navigate to DoctorHomeScreen
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => DoctorHomeScreen()),
+          );
+        } else {
+          // Check the 'users' collection
+          FirebaseFirestore.instance
+              .collection('users')
+              .doc(userCredential.user!.uid)
+              .get()
+              .then((documentSnapshot) {
+            if (documentSnapshot.exists) {
+              // User is a regular user, navigate to UserHomeScreen
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HomeScreen()),
+              );
+            } else {
+              // Handle the case where the user is not found in either collection
+              print('User not found in either collection');
+            }
+          });
+        }
+      });
     }).onError((error, stackTrace) {
       setState(() {
         _emailErrorMessage = '';

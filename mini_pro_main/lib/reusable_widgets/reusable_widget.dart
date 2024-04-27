@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Image logoWidget(String imageName) {
   return Image.asset(
@@ -39,19 +40,26 @@ TextField resuableTextfield(String text, IconData icon, bool isPasswordType,
   );
 }
 
-Container signInSignUpButton(
-    BuildContext context, bool islogin, Function onTap) {
+Container signInSignUpButton(BuildContext context, bool islogin, Function onTap,
+    {bool isDoctor = false}) {
   return Container(
     width: MediaQuery.of(context).size.width,
     height: 50,
     margin: const EdgeInsets.fromLTRB(0, 10, 0, 20),
     decoration: BoxDecoration(borderRadius: BorderRadius.circular(90)),
     child: ElevatedButton(
-      onPressed: () {
+      onPressed: () async {
+        // Set the global variable indicating whether the user is a doctor or not
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setBool('isDoctor', isDoctor);
         onTap();
       },
       child: Text(
-        islogin ? "LOG IN" : 'SIGN UP',
+        islogin
+            ? "LOG IN"
+            : isDoctor
+                ? 'SIGN UP AS DOCTOR'
+                : 'SIGN UP AS USER',
         style: const TextStyle(
             color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 16),
       ),
