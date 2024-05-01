@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:mini_pro_main/doctor/profilepage.dart';
+//import 'package:mini_pro_main/doctor/profilepage.dart';
 import 'package:mini_pro_main/doctor/drhomescreen2.dart';
 
 class DoctorProfilePage extends StatefulWidget {
