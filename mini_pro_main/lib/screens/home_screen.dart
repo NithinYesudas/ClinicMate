@@ -26,12 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
 }*/
 
 //import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:mini_pro_main/models/appointment_booking.dart';
-import 'package:mini_pro_main/models/doctors.dart';
-import 'package:mini_pro_main/models/global.dart';
-import 'package:mini_pro_main/screens/signin_screen.dart';
-import 'dart:async';
+
 /*import 'package:google_maps_flutter/google_maps_flutter.dart';
 //import 'models/doctors.dart';
 //import 'models/global.dart';
@@ -541,7 +536,12 @@ Map statusStyles = {
 };*/
 
 //3rd code
-
+import 'package:flutter/material.dart';
+import 'package:mini_pro_main/models/appointment_booking.dart';
+import 'package:mini_pro_main/models/doctors.dart';
+import 'package:mini_pro_main/models/global.dart';
+import 'package:mini_pro_main/screens/signin_screen.dart';
+import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class CustomBottomNavBar extends StatefulWidget {

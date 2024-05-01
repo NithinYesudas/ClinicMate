@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mini_pro_main/screens/signin_screen.dart';
 import 'feedback.dart';
-import 'doctor_profile_edit_page.dart'; // Import the DoctorProfileEditPage
+import 'doctor_profile_edit_page.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -49,6 +50,19 @@ class _ProfilePageState extends State<ProfilePage> {
         title: Text('Profile'),
         actions: [
           IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: () async {
+              // Sign out the user
+              await FirebaseAuth.instance.signOut();
+
+              // Navigate to the login page
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SignInScreen()),
+              );
+            },
+          ),
+          IconButton(
             icon: Icon(Icons.edit),
             onPressed: () {
               Navigator.push(
@@ -67,30 +81,123 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Name: $_name'),
-            SizedBox(height: 10),
-            Text('Location: $_location'),
-            SizedBox(height: 10),
-            Text('Experience: $_experience'),
-            SizedBox(height: 10),
-            Text('About: $_about'),
-            SizedBox(height: 10),
-            Text('License No.: $_licenseNo'),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => FeedbackPage()),
-                );
-              },
-              child: Text('View Feedback'),
-            ),
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Name',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      Text('$_name'),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 16),
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Location',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      Text('$_location'),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 16),
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Experience',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      Text('$_experience'),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 16),
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'About',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      Text('$_about'),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 16),
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'License No.',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      Text('$_licenseNo'),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => FeedbackPage()),
+                  );
+                },
+                child: Text('View Feedback'),
+              ),
+            ],
+          ),
         ),
       ),
     );
