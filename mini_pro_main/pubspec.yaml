@@ -43,6 +43,10 @@ dependencies:
   shared_preferences: ^2.2.3
   cloud_firestore: ^4.17.2
   flutter_svg: ^2.0.10+1
+  http: ^1.2.1
+  provider: ^6.1.2
+  google_fonts: ^6.2.1
+  ionicons: ^0.2.2
 
 dev_dependencies:
   flutter_test:

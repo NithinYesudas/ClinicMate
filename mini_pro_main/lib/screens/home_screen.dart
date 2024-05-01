@@ -3,6 +3,7 @@ import 'package:mini_pro_main/models/appointment_booking.dart';
 import 'package:mini_pro_main/models/doctors.dart';
 import 'package:mini_pro_main/models/global.dart';
 import 'package:mini_pro_main/models/user_profile.dart';
+import 'package:mini_pro_main/screens/chatbotScreen.dart';
 import 'package:mini_pro_main/screens/signin_screen.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -51,10 +52,9 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
               setState(() {
                 _currentIndex = 1; // Set the current index to 1 (chatbot)
               });
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SignInScreen()),
-              );
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => HealthCareBot()));
+
             },
           ),
           IconButton(
