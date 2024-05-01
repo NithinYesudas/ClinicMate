@@ -106,7 +106,8 @@ class _SignInScreenState extends State<SignInScreen> {
             // Doctor profile is complete, navigate to DrHomeScreen2
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => DrHomeScreen2()),
+              MaterialPageRoute(
+                  builder: (context) => DrHomeScreen2()), //here drhomescreen2
             );
           } else {
             // Doctor profile is incomplete, navigate to DoctorProfilePage

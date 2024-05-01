@@ -13,6 +13,7 @@ class DoctorProfilePage extends StatefulWidget {
 
 class _DoctorProfilePageState extends State<DoctorProfilePage> {
   final TextEditingController nameController = TextEditingController();
+  final TextEditingController specialityController = TextEditingController();
   final TextEditingController locationController = TextEditingController();
   final TextEditingController experienceController = TextEditingController();
   final TextEditingController aboutController = TextEditingController();
@@ -24,6 +25,7 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
     if (user != null) {
       await FirebaseFirestore.instance.collection('doctors').doc(user.uid).set({
         'name': nameController.text,
+        'speciality': specialityController.text,
         'location': locationController.text,
         'experience': experienceController.text,
         'about': aboutController.text,
@@ -57,6 +59,23 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: 'Enter your name...',
+                contentPadding: EdgeInsets.all(12.0),
+              ),
+            ),
+            const SizedBox(height: 20.0),
+            const Text(
+              'speciality',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8.0),
+            TextField(
+              controller: specialityController,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: 'Enter your speciality',
                 contentPadding: EdgeInsets.all(12.0),
               ),
             ),
@@ -158,6 +177,7 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                 onPressed: () async {
                   // Submit doctor profile
                   final String name = nameController.text;
+                  final String speciality = specialityController.text;
                   final String location = locationController.text;
                   final String experience = experienceController.text;
                   final String about = aboutController.text;
@@ -165,6 +185,7 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
 
                   // Perform submission
                   if (name.isNotEmpty &&
+                      speciality.isNotEmpty &&
                       location.isNotEmpty &&
                       experience.isNotEmpty &&
                       about.isNotEmpty &&

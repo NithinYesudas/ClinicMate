@@ -1,6 +1,8 @@
 // ignore_for_file: unused_field
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class DoctorSchedulePage extends StatefulWidget {
   @override
@@ -26,7 +28,7 @@ class _DoctorSchedulePageState extends State<DoctorSchedulePage> {
         child: Column(
           children: [
             TableCalendar(
-              firstDay: DateTime.utc(2023, 1, 1),
+              firstDay: DateTime.utc(2024, 5, 1),
               lastDay: DateTime.utc(2024, 12, 31),
               focusedDay: _focusedDay,
               calendarFormat: _calendarFormat,
@@ -71,7 +73,7 @@ class _DoctorSchedulePageState extends State<DoctorSchedulePage> {
                   const SizedBox(width: 8.0),
                   DropdownButton<int>(
                     value: _slotDuration,
-                    items: const [15, 30, 45, 60]
+                    items: const [2, 5, 7, 10, 15, 20, 30, 45, 60]
                         .map(
                           (duration) => DropdownMenuItem<int>(
                             value: duration,
@@ -137,6 +139,9 @@ class _DoctorSchedulePageState extends State<DoctorSchedulePage> {
     _scheduledTimeSlots = []; // Initialize _scheduledTimeSlots as an empty list
     _generateTimeSlots();
 
+    // Save the schedule data to Firestore
+    _saveScheduleToFirestore();
+
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -190,6 +195,43 @@ class _DoctorSchedulePageState extends State<DoctorSchedulePage> {
     setState(() {
       _scheduledTimeSlots = scheduledTimeSlots;
     });
+  }
+
+  Future<void> _saveScheduleToFirestore() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final doctorId =
+          user.uid; // Assuming the user's UID represents the doctor's ID
+
+      // Get a reference to the "schedules" subcollection under the doctor's document
+      final scheduleRef = FirebaseFirestore.instance
+          .collection('doctors')
+          .doc(doctorId)
+          .collection('schedules');
+
+      // Create a new document in the "schedules" subcollection
+      await scheduleRef.add({
+        'date': _selectedDay,
+        'startTime': _startTime?.format(context) ??
+            '', // Convert TimeOfDay to a string format
+        'endTime': _endTime?.format(context) ??
+            '', // Convert TimeOfDay to a string format
+        'timeslots': FieldValue.arrayUnion(
+            _scheduledTimeSlots), // Store time slots as a list
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Schedule saved successfully'),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('User not authenticated'),
+        ),
+      );
+    }
   }
 }
 
