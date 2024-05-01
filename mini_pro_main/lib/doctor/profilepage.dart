@@ -1,24 +1,8 @@
-// doctor_home_screen.dart
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-void main() {
-  runApp(const DoctorHomeScreen());
-}
-
-class DoctorHomeScreen extends StatelessWidget {
-  const DoctorHomeScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Doctor Profile',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const DoctorProfilePage(),
-    );
-  }
-}
+import 'package:mini_pro_main/doctor/profilepage.dart';
+import 'package:mini_pro_main/doctor/drhomescreen2.dart';
 
 class DoctorProfilePage extends StatefulWidget {
   const DoctorProfilePage({super.key});
@@ -34,6 +18,20 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
   final TextEditingController aboutController = TextEditingController();
   final TextEditingController licenseController = TextEditingController();
   bool isVerified = false;
+
+  Future<void> _storeDoctorProfile() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      await FirebaseFirestore.instance.collection('doctors').doc(user.uid).set({
+        'name': nameController.text,
+        'location': locationController.text,
+        'experience': experienceController.text,
+        'about': aboutController.text,
+        'licenseNo': licenseController.text,
+        'profileComplete': true,
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +56,7 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
               controller: nameController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: 'Enter doctor\'s name...',
+                hintText: 'Enter your name...',
                 contentPadding: EdgeInsets.all(12.0),
               ),
             ),
@@ -92,13 +90,13 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
               controller: experienceController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: 'Enter doctor\'s experience...',
+                hintText: 'Enter your experience...',
                 contentPadding: EdgeInsets.all(12.0),
               ),
             ),
             const SizedBox(height: 20.0),
             const Text(
-              'About the Doctor',
+              'About',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -111,13 +109,13 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
               keyboardType: TextInputType.multiline,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: 'Write about the doctor...',
+                hintText: 'Write about your experience and qualifications...',
                 contentPadding: EdgeInsets.all(12.0),
               ),
             ),
             const SizedBox(height: 20.0),
             const Text(
-              'Doctor\'s License No.',
+              'License No.',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -157,7 +155,7 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
             if (isVerified) ...[
               const SizedBox(height: 20.0),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   // Submit doctor profile
                   final String name = nameController.text;
                   final String location = locationController.text;
@@ -165,15 +163,20 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                   final String about = aboutController.text;
                   final String licenseNo = licenseController.text;
 
-                  // Perform submission (mock implementation)
+                  // Perform submission
                   if (name.isNotEmpty &&
                       location.isNotEmpty &&
                       experience.isNotEmpty &&
                       about.isNotEmpty &&
                       licenseNo.isNotEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text('Doctor profile submitted successfully!'),
-                    ));
+                    // Store the doctor's profile data in Firestore
+                    await _storeDoctorProfile();
+
+                    // Navigate to the DrHomeScreen2 after successful submission
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => DrHomeScreen2()),
+                    );
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text('Please fill in all fields.'),

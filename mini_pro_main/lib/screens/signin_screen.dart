@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:mini_pro_main/doctor/dr_homescreen.dart';
+import 'package:mini_pro_main/doctor/profilepage.dart';
+import 'package:mini_pro_main/doctor/drhomescreen2.dart';
 import 'package:mini_pro_main/screens/home_screen.dart';
 import 'package:mini_pro_main/screens/signup_screen.dart';
 import 'package:mini_pro_main/utils/color_utils.dart';
@@ -20,34 +21,52 @@ class _SignInScreenState extends State<SignInScreen> {
   TextEditingController _emailTextController = TextEditingController();
   String _emailErrorMessage = '';
   String _passwordErrorMessage = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [
-          hexStringToColor("CB2B93"),
-          hexStringToColor("9546C4"),
-          hexStringToColor("5E61F4")
-        ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+          gradient: LinearGradient(
+            colors: [
+              hexStringToColor("CB2B93"),
+              hexStringToColor("9546C4"),
+              hexStringToColor("5E61F4")
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.fromLTRB(
-                20, MediaQuery.of(context).size.height * 0.371, 20, 0),
+              20,
+              MediaQuery.of(context).size.height * 0.371,
+              20,
+              0,
+            ),
             child: Column(
               children: <Widget>[
                 logoWidget('assets/images/logo2.png'),
                 const SizedBox(
                   height: 30,
                 ),
-                resuableTextfield("Enter email", Icons.person_outline, false,
-                    _emailTextController),
+                resuableTextfield(
+                  "Enter email",
+                  Icons.person_outline,
+                  false,
+                  _emailTextController,
+                ),
                 ErrorMessageWidget(errorMessage: _emailErrorMessage),
                 const SizedBox(
                   height: 30,
                 ),
-                resuableTextfield("Enter passwordd", Icons.lock_outline, true,
-                    _passwordTextController),
+                resuableTextfield(
+                  "Enter password",
+                  Icons.lock_outline,
+                  true,
+                  _passwordTextController,
+                ),
                 ErrorMessageWidget(errorMessage: _passwordErrorMessage),
                 const SizedBox(
                   height: 20,
@@ -57,7 +76,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   true,
                   signInWithEmailAndPassword,
                 ),
-                signUpOption()
+                signUpOption(),
               ],
             ),
           ),
@@ -80,11 +99,22 @@ class _SignInScreenState extends State<SignInScreen> {
           .get()
           .then((documentSnapshot) {
         if (documentSnapshot.exists) {
-          // User is a doctor, navigate to DoctorHomeScreen
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => DoctorHomeScreen()),
-          );
+          // User is a doctor
+          bool profileComplete =
+              documentSnapshot.data()?['profileComplete'] ?? false;
+          if (profileComplete) {
+            // Doctor profile is complete, navigate to DrHomeScreen2
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => DrHomeScreen2()),
+            );
+          } else {
+            // Doctor profile is incomplete, navigate to DoctorProfilePage
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => DoctorProfilePage()),
+            );
+          }
         } else {
           // Check the 'users' collection
           FirebaseFirestore.instance
@@ -118,12 +148,9 @@ class _SignInScreenState extends State<SignInScreen> {
           } else if (error.code == 'invalid-email') {
             _emailErrorMessage = 'Invalid email address';
           } else {
-            // Handle other error codes or provide a generic error message
-            //_emailErrorMessage = 'An error occurred: ${error.code}';
             _passwordErrorMessage = 'Wrong password';
           }
         } else {
-          // Handle the case where error is not a FirebaseAuthException
           _emailErrorMessage = 'An unknown error occurred';
           _passwordErrorMessage = 'An unknown error occurred';
         }
@@ -135,12 +162,16 @@ class _SignInScreenState extends State<SignInScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text("Dont have account?",
-            style: TextStyle(color: Colors.white70)),
+        const Text(
+          "Don't have an account?",
+          style: TextStyle(color: Colors.white70),
+        ),
         GestureDetector(
           onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => SignUpScreen()));
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SignUpScreen()),
+            );
           },
           child: const Text(
             "Sign up",
