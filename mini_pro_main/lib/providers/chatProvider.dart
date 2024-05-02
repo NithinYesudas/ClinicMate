@@ -30,7 +30,7 @@ class ChatProvider extends ChangeNotifier {
     final url = Uri.parse("https://api.openai.com/v1/chat/completions");
     const header = {
       "Content-Type": "application/json",
-      "Authorization": "Bearer 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"
+      "Authorization": "Bearer "
     };
     List<Map<String, dynamic>> conversation = [
       {
